@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:ecommerce/network/models/shoe.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/animation.dart';

@@ -1,19 +1,25 @@
 import 'package:ecommerce/pages/main/ui/index.dart';
 import 'package:ecommerce/routes/pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ecommerce/pages/welcome/welcome_screen.dart';
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ),
-  );
+Future<void> main() async{
+
   runApp(const MyApp());
+  await Firebase.initializeApp();
+
+
 }
- 
+
+
+
+
 class MyApp extends StatelessWidget {
+  final bool isAuth = false;
   const MyApp({super.key});
 
   @override

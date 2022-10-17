@@ -20,7 +20,8 @@ class HomePage extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
-        children: [
+        children: <Widget>[
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -65,13 +66,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.width15,
                   ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {},
-                    icon: SvgPicture.asset('assets/icons/Notification.svg'),
-                    iconSize: Dimensions.iconSize26,
-                  )
+                  //Notification
                 ],
               ),
             ],
@@ -90,3 +85,13 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+/*
+IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () {},
+                    icon: SvgPicture.asset('assets/icons/Notification.svg'),
+                    iconSize: Dimensions.iconSize26,
+                  )
+*/

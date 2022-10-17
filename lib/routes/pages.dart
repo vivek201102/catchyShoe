@@ -9,22 +9,27 @@ import 'package:ecommerce/pages/search/bindings/search_binding.dart';
 import 'package:ecommerce/pages/search/ui/index.dart';
 import 'package:ecommerce/routes/routes.dart';
 import 'package:get/get.dart';
+import 'package:ecommerce/pages/welcome/welcome_screen.dart';
 
 class Pages {
   static final List<GetPage<dynamic>> pages = [
-    GetPage<HomePage>(
+    GetPage<WelcomeScreen>(
       name: Routes.initial,
-      page: () => const Main(),
+      page: () => const WelcomeScreen(),
       binding: MainBindings(),
       transition: Transition.fadeIn,
       preventDuplicates: true,
     ),
+
+
+
     GetPage<HomePage>(
       name: Routes.home,
       page: () => HomePage(),
       transition: Transition.fadeIn,
       preventDuplicates: true,
     ),
+
     GetPage<SearchPage>(
       name: Routes.search,
       page: () => const SearchPage(),
@@ -32,6 +37,7 @@ class Pages {
       transition: Transition.downToUp,
       preventDuplicates: true,
     ),
+
     GetPage<CartPage>(
       name: Routes.cart,
       page: () => const CartPage(),
