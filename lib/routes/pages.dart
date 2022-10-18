@@ -10,8 +10,10 @@ import 'package:ecommerce/pages/search/ui/index.dart';
 import 'package:ecommerce/routes/routes.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce/pages/welcome/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Pages {
+
   static final List<GetPage<dynamic>> pages = [
     GetPage<WelcomeScreen>(
       name: Routes.initial,

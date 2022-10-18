@@ -8,6 +8,7 @@ import 'package:ecommerce/pages/home/ui/widgets/my_text.dart';
 import 'package:ecommerce/pages/home/ui/widgets/recent_products.dart';
 import 'package:ecommerce/pages/home/ui/widgets/search_box.dart';
 import 'package:ecommerce/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,9 @@ class HomePage extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+
+
+
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
@@ -66,6 +70,17 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.width15,
                   ),
+
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: ()async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pop(context);
+                    },
+                    icon: SvgPicture.asset('assets/icons/logout.svg'),
+                    iconSize: 22,
+                  )
                   //Notification
                 ],
               ),
@@ -79,7 +94,7 @@ class HomePage extends StatelessWidget {
           ),
           Banners(),
           const Categories(),
-          const RecentProducts(),
+          RecentProduct(),
         ],
       ),
     );

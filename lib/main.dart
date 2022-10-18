@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 import 'package:ecommerce/pages/welcome/welcome_screen.dart';
 
 Future<void> main() async{
-
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  runApp(const MyApp());
 
 
 }

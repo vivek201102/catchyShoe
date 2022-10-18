@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/core/theme/colors.dart';
 import 'package:ecommerce/core/utils/dimesions.dart';
+import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/network/models/shoe.dart';
 import 'package:ecommerce/pages/cart/controllers/cart_controller.dart';
 import 'package:ecommerce/pages/detail/ui/index.dart';
@@ -10,8 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class RecentProducts extends StatelessWidget {
-  const RecentProducts({super.key});
+class RecentProduct extends StatefulWidget {
+  // const RecentProduct({Key? key}) : super(key: key);
+  var _reference = FirebaseFirestore.instance.collection('productData');
+  late Stream<QuerySnapshot> _stream =_reference.snapshots();  @override
+  State<RecentProduct> createState() => _RecentProductState();
+}
+
+class _RecentProductState extends State<RecentProduct> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +48,44 @@ class RecentProducts extends StatelessWidget {
         SizedBox(
           height: Dimensions.height10,
         ),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: recent.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: Dimensions.cardHeight,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            Shoe shoe = recent[index];
-            return ShoeCard(shoe: shoe);
-          },
-        ),
+        StreamBuilder<QuerySnapshot>(
+            stream: widget._stream,
+            builder: (BuildContext contex, AsyncSnapshot snapshot){
+              if (snapshot.hasError) {
+                return Center(child: Text('Some error occurred ${snapshot.error}'));
+              }
+              if(snapshot.hasData){
+                QuerySnapshot querySnapshot = snapshot.data;
+                List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+                List<Map> items = documents.map((e) => e.data() as Map).toList();
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: items.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisExtent: Dimensions.cardHeight,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+
+
+                    return ShoeCard(shoe: items[index]);
+                  },
+                );
+              }
+
+              return Center(child: CircularProgressIndicator());
+            },
+        )
       ],
     );
   }
 }
+
+
+
+
+
 
 class ShoeCard extends StatelessWidget {
   const ShoeCard({
@@ -63,7 +93,7 @@ class ShoeCard extends StatelessWidget {
     required this.shoe,
   }) : super(key: key);
 
-  final Shoe shoe;
+  final Map shoe;
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +117,8 @@ class ShoeCard extends StatelessWidget {
                 topLeft: Radius.circular(Dimensions.radius8),
                 topRight: Radius.circular(Dimensions.radius8),
               ),
-              child: Image.asset(
-                shoe.cover,
+              child: Image.network(
+                shoe['imageUrl'],
                 height: Dimensions.coverHeight,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -98,7 +128,7 @@ class ShoeCard extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: Dimensions.width15, top: Dimensions.height10),
               child: MyText(
-                text: shoe.name,
+                text: shoe['name'],
                 size: 14,
               ),
             ),
@@ -109,7 +139,7 @@ class ShoeCard extends StatelessWidget {
                 bottom: Dimensions.height15,
               ),
               child: MyText(
-                text: '\$${shoe.price.toStringAsFixed(2)}',
+                text: '\Rs${shoe['price'].toStringAsFixed(2)}',
                 size: 15,
                 weight: FontWeight.w500,
               ),
@@ -125,8 +155,10 @@ class ShoeCard extends StatelessWidget {
                     elevation: MaterialStateProperty.all<double>(0),
                     backgroundColor:
                         MaterialStateProperty.all<Color>(AppColors.main),
+
                   ),
-                  onPressed: () => Get.find<CartController>().addToCart(shoe),
+                  onPressed: (){},
+                  // onPressed: () => Get.find<CartController>().addToCart(shoe),
                   child: const Text(
                     'Add to cart',
                   ),

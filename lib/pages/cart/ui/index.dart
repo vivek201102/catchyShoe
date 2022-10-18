@@ -98,20 +98,20 @@ class CartPage extends GetView<CartController> {
               const Divider(
                 thickness: 1.1,
               ),
-              GetBuilder<CartController>(
-                builder: (_) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.items.length,
-                    itemBuilder: (_, index) {
-                      return CartItemView(
-                        item: controller.items[index],
-                      );
-                    },
-                  );
-                },
-              ),
+              // GetBuilder<CartController>(
+              //   builder: (_) {
+              //     return ListView.builder(
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       itemCount: controller.items.length,
+              //       itemBuilder: (_, index) {
+              //         return CartItemView(
+              //           item: controller.items[index],
+              //         );
+              //       },
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),
@@ -170,82 +170,82 @@ class CartPage extends GetView<CartController> {
   }
 }
 
-class CartItemView extends StatelessWidget {
-  const CartItemView({
-    Key? key,
-    required this.item,
-  }) : super(key: key);
-  final CartItem item;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Get.to(
-        DetailsPage(shoe: item.shoe),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(Dimensions.height15),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(Dimensions.radius8),
-              child: Image.asset(
-                item.shoe.cover,
-                height: Dimensions.height100,
-                width: Dimensions.width100,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              width: Dimensions.width10,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: Dimensions.height5,
-              ),
-              height: Dimensions.height100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MyText(
-                    text: item.shoe.name,
-                    size: 17,
-                  ),
-                  SizedBox(
-                    width: 250,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MyText(
-                          text: '\$${item.shoe.price.toStringAsFixed(2)}',
-                          size: 17,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () =>
-                                  Get.find<CartController>().addQuantity(item),
-                              icon: const Icon(Icons.add),
-                            ),
-                            MyText(text: item.quantity.toString()),
-                            IconButton(
-                              onPressed: () =>
-                                  Get.find<CartController>().lowQuantity(item),
-                              icon: const Icon(Icons.remove),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class CartItemView extends StatelessWidget {
+//   const CartItemView({
+//     Key? key,
+//     required this.item,
+//   }) : super(key: key);
+//   final Map item;
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () => Get.to(
+//         DetailsPage(shoe: item.shoe),
+//       ),
+//       child: Container(
+//         padding: EdgeInsets.all(Dimensions.height15),
+//         child: Row(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             ClipRRect(
+//               borderRadius: BorderRadius.circular(Dimensions.radius8),
+//               child: Image.asset(
+//                 item.shoe.cover,
+//                 height: Dimensions.height100,
+//                 width: Dimensions.width100,
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//             SizedBox(
+//               width: Dimensions.width10,
+//             ),
+//             Container(
+//               padding: EdgeInsets.symmetric(
+//                 vertical: Dimensions.height5,
+//               ),
+//               height: Dimensions.height100,
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   MyText(
+//                     text: item.shoe.name,
+//                     size: 17,
+//                   ),
+//                   SizedBox(
+//                     width: 250,
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: [
+//                         MyText(
+//                           text: '\$${item.shoe.price.toStringAsFixed(2)}',
+//                           size: 17,
+//                         ),
+//                         Row(
+//                           mainAxisAlignment: MainAxisAlignment.end,
+//                           children: [
+//                             IconButton(
+//                               onPressed: () =>
+//                                   Get.find<CartController>().addQuantity(item),
+//                               icon: const Icon(Icons.add),
+//                             ),
+//                             MyText(text: item.quantity.toString()),
+//                             IconButton(
+//                               onPressed: () =>
+//                                   Get.find<CartController>().lowQuantity(item),
+//                               icon: const Icon(Icons.remove),
+//                             ),
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

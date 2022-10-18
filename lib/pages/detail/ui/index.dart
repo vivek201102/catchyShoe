@@ -18,7 +18,7 @@ class DetailsPage extends StatefulWidget {
     Key? key,
     required this.shoe,
   }) : super(key: key);
-  final Shoe shoe;
+  final Map shoe;
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -77,8 +77,8 @@ class _DetailsPageState extends State<DetailsPage> {
               SizedBox(
                 height: Dimensions.height15,
               ),
-              Image.asset(
-                widget.shoe.cover,
+              Image.network(
+                widget.shoe['imageUrl'],
                 width: double.infinity,
                 height: Dimensions.detailCoverHeight,
                 fit: BoxFit.cover,
@@ -92,7 +92,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          text: widget.shoe.name,
+                          text: widget.shoe['name'],
                           size: Dimensions.font24,
                           weight: FontWeight.w500,
                         ),
@@ -103,7 +103,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           children: [
                             MyText(
                               text:
-                                  '\$ ${widget.shoe.price.toStringAsFixed(2)}',
+                                  'Rs. ${widget.shoe['price'].toStringAsFixed(2)}',
                               size: Dimensions.font24,
                               weight: FontWeight.w500,
                             ),
@@ -112,7 +112,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             MyText(
                               text:
-                                  '( ${widget.shoe.buyersNum} people buy this )',
+                                  '( ${widget.shoe['buyersNum']} people buy this )',
                               size: Dimensions.font16,
                             ),
                           ],
@@ -129,7 +129,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         onPressed: () {
                           setState(() {
                             for (var item in all) {
-                              widget.shoe.id == item.id
+                              widget.shoe['id'] == item.id
                                   ? all[all.indexOf(item)].isFavorite =
                                       !all[all.indexOf(item)].isFavorite
                                   : null;
@@ -140,7 +140,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           'assets/icons/Heart.svg',
                           height: Dimensions.height30,
                           width: Dimensions.width30,
-                          color: widget.shoe.isFavorite ? Colors.red : null,
+                          color: Colors.red,
                         ),
                       ),
                     ),
@@ -160,21 +160,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     SizedBox(
                       height: Dimensions.height15,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        5,
-                        (index) => Container(
-                          height: Dimensions.height50,
-                          width: Dimensions.width60,
-                          decoration: BoxDecoration(
-                              color: widget.shoe.colors[index],
-                              borderRadius: BorderRadius.circular(
-                                Dimensions.radius8,
-                              )),
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ),
@@ -198,7 +184,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       height: Dimensions.height10,
                     ),
                     MyText(
-                      text: widget.shoe.desc,
+                      text: widget.shoe['des'],
                       size: Dimensions.font14,
                       lineHeight: 1.5,
                     ),
@@ -226,8 +212,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(AppColors.main),
                   ),
-                  onPressed: () =>
-                      Get.find<CartController>().addToCart(widget.shoe),
+                  onPressed: (){},
+                  // onPressed: () =>
+                  //     Get.find<CartController>().addToCart(widget.shoe),
                   child: const Text(
                     'Add to cart',
                   ),
@@ -245,7 +232,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ),
                   onPressed: () {
-                    Get.find<CartController>().addToCart(widget.shoe);
+                    // Get.find<CartController>().addToCart(widget.shoe);
                     Get.toNamed(Routes.cart);
                   },
                   child: const Text(

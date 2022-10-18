@@ -111,23 +111,24 @@ class SearchPage extends GetView<SearchController> {
                             ),
                           ),
                         )
-                      : Padding(
-                          padding: EdgeInsets.all(Dimensions.height10),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.searchedShoes.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: Dimensions.cardHeight,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              Shoe shoe = controller.searchedShoes[index];
-                              return ShoeCard(shoe: shoe);
-                            },
-                          ),
-                        ),
+                      // : Padding(
+                      //     padding: EdgeInsets.all(Dimensions.height10),
+                      //     child: GridView.builder(
+                      //       shrinkWrap: true,
+                      //       physics: const NeverScrollableScrollPhysics(),
+                      //       itemCount: controller.searchedShoes.length,
+                      //       gridDelegate:
+                      //           SliverGridDelegateWithFixedCrossAxisCount(
+                      //         crossAxisCount: 2,
+                      //         mainAxisExtent: Dimensions.cardHeight,
+                      //       ),
+                      //       itemBuilder: (BuildContext context, int index) {
+                      //         Shoe shoe = controller.searchedShoes[index];
+                      //         return ShoeCard(shoe: shoe);
+                      //       },
+                      //     ),
+                      //   ),
+                  : Container()
                 ),
               ],
             ),
