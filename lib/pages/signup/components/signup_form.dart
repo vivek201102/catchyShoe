@@ -1,12 +1,9 @@
-import 'package:ecommerce/pages/home/ui/index.dart';
+import 'package:ecommerce/pages/Seller/UploadProduct/addProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/pages/components/already_have_an_account_acheck.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:ecommerce/pages/login/login_screen.dart';
 import 'package:ecommerce/Services/AuthServices.dart';
-import 'package:ecommerce/pages/home/ui/index.dart';
-import 'package:get/get.dart';
-import 'package:ecommerce/routes/routes.dart';
 import 'package:ecommerce/pages/main/ui/index.dart';
 
 
@@ -40,8 +37,14 @@ class _SignUpFormState extends State<SignUpForm> {
     String utype = (userType == 1)? "buyer" : "seller";
 
 
-    await AuthUser().createUser(email, password, mobile, password, utype);
-
+    await AuthUser().createUser(email, password, mobile, name, utype);
+    if(userType == 1)
+    {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Main()));
+    }
+    else{
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AddProduct()));
+    }
   }
 
   @override
@@ -162,7 +165,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       addUser();
                       // Get.put(HomePage());
                       // Get.toNamed(Routes.cart);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+
                     },
 
                     child: Text("Sign Up".toUpperCase()),

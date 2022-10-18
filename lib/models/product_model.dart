@@ -7,7 +7,7 @@ class ProductModel{
   String? des;
   int? qty;
   ProductModel({this.qty,this.pid,this.name,this.price,this.category,this.des,this.imageUrl});
-//send
+  //send
   factory ProductModel.fromMap(map){
     return ProductModel(
       pid: map['pid'],
@@ -30,6 +30,7 @@ class ProductModel{
       'imageUrl':imageUrl,
       'price': price,
       'quantity':qty,
+
 
     };
   }

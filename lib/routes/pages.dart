@@ -13,6 +13,10 @@ import 'package:ecommerce/pages/welcome/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Pages {
+  String? uid;
+  Future getUId() async{
+    return await FirebaseAuth.instance.currentUser?.uid;
+  }
 
   static final List<GetPage<dynamic>> pages = [
     GetPage<WelcomeScreen>(
@@ -42,7 +46,7 @@ class Pages {
 
     GetPage<CartPage>(
       name: Routes.cart,
-      page: () => const CartPage(),
+      page: () =>  CartPage(),
       binding: CartBindings(),
       transition: Transition.upToDown,
       preventDuplicates: true,

@@ -1,29 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/core/theme/colors.dart';
 import 'package:ecommerce/core/utils/dimesions.dart';
-import 'package:ecommerce/models/product_model.dart';
-import 'package:ecommerce/network/models/shoe.dart';
-import 'package:ecommerce/pages/cart/controllers/cart_controller.dart';
+import 'package:ecommerce/models/cart_model.dart';
 import 'package:ecommerce/pages/detail/ui/index.dart';
-import 'package:ecommerce/pages/home/data/shoes.dart';
 import 'package:ecommerce/pages/home/ui/widgets/my_text.dart';
-import 'package:ecommerce/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class RecentProduct extends StatefulWidget {
   // const RecentProduct({Key? key}) : super(key: key);
   var _reference = FirebaseFirestore.instance.collection('productData');
-  late Stream<QuerySnapshot> _stream =_reference.snapshots();  @override
+  late Stream<QuerySnapshot> _stream =_reference.snapshots();
+  var idList = [];
+  @override
   State<RecentProduct> createState() => _RecentProductState();
 }
 
 class _RecentProductState extends State<RecentProduct> {
 
+  void printMethod(){
+    print("In Print Method priting the p");
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+    printMethod();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,6 +64,9 @@ class _RecentProductState extends State<RecentProduct> {
               if(snapshot.hasData){
                 QuerySnapshot querySnapshot = snapshot.data;
                 List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+                documents.forEach((element) {
+                  widget.idList.add(element.id);
+                });
                 List<Map> items = documents.map((e) => e.data() as Map).toList();
                 return GridView.builder(
                   shrinkWrap: true,
@@ -69,7 +79,7 @@ class _RecentProductState extends State<RecentProduct> {
                   itemBuilder: (BuildContext context, int index) {
 
 
-                    return ShoeCard(shoe: items[index]);
+                    return ShoeCard(shoe: items[index], id: widget.idList[index]);
                   },
                 );
               }
@@ -85,21 +95,29 @@ class _RecentProductState extends State<RecentProduct> {
 
 
 
-
-
-class ShoeCard extends StatelessWidget {
-  const ShoeCard({
-    Key? key,
-    required this.shoe,
-  }) : super(key: key);
-
+class ShoeCard extends StatefulWidget {
+  const ShoeCard({Key? key, required this.id,required this.shoe}) : super(key: key);
+  final String id;
   final Map shoe;
+  @override
+  State<ShoeCard> createState() => _ShoeCardState(this.id, this.shoe);
+}
+
+class _ShoeCardState extends State<ShoeCard> {
+  CartModel cm = CartModel();
+  CollectionReference _reference = FirebaseFirestore.instance.collection('cartData');
+  _ShoeCardState(this.id, this.shoe);
+
+
+  final String id;
+  final Map shoe;
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.to(
-        DetailsPage(shoe: shoe),
+        DetailsPage(shoe: shoe, id: this.id),
       ),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -154,10 +172,30 @@ class ShoeCard extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColors.main),
+                    MaterialStateProperty.all<Color>(AppColors.main),
 
                   ),
-                  onPressed: (){},
+                  onPressed: () async{
+                    cm.uid = await FirebaseAuth.instance.currentUser?.uid;
+                    final snap = await FirebaseFirestore.instance.collection("cartData").where('uid', isEqualTo: cm.uid).where('pid', isEqualTo: id).get();
+                    if(snap.docs.length == 0)
+                      {
+                        cm.name = shoe['name'];
+                        cm.price = shoe['price'];
+                        cm.qty = shoe['quantity'];
+                        cm.pid = id;
+                        cm.imageUrl = shoe['imageUrl'];
+                        // Map<String, dynamic> productData = pm.toMap();
+                        // _reference.add(productData);
+                        Map<String, dynamic> cartData = cm.toMap();
+                        _reference.add(cartData);
+                        Fluttertoast.showToast(msg: "Product added sucessfully");
+                      }
+                    else{
+                        Fluttertoast.showToast(msg: "Product already in cart");
+                    }
+
+                  },
                   // onPressed: () => Get.find<CartController>().addToCart(shoe),
                   child: const Text(
                     'Add to cart',
@@ -170,4 +208,6 @@ class ShoeCard extends StatelessWidget {
       ),
     );
   }
+
 }
+

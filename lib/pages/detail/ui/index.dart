@@ -16,9 +16,10 @@ import 'package:ecommerce/routes/routes.dart';
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
     Key? key,
-    required this.shoe,
+    required this.shoe, required this.id
   }) : super(key: key);
   final Map shoe;
+  final String id;
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -110,11 +111,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             SizedBox(
                               width: Dimensions.width5,
                             ),
-                            MyText(
-                              text:
-                                  '( ${widget.shoe['buyersNum']} people buy this )',
-                              size: Dimensions.font16,
-                            ),
+
                           ],
                         ),
                       ],
@@ -159,6 +156,65 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SizedBox(
                       height: Dimensions.height15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: Dimensions.height50,
+                          width: Dimensions.width60,
+                          decoration: BoxDecoration(
+                            color: Colors.purple,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius8,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          height: Dimensions.height50,
+                          width: Dimensions.width60,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius8,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          height: Dimensions.height50,
+                          width: Dimensions.width60,
+                          decoration: BoxDecoration(
+                            color: Colors.pink,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius8,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          height: Dimensions.height50,
+                          width: Dimensions.width60,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius8,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          height: Dimensions.height50,
+                          width: Dimensions.width60,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius8,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
 
                   ],

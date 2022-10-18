@@ -31,7 +31,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>Main()));
           }
         });
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddProduct()));
+        await FirebaseFirestore.instance.collection("Seller").doc(await FirebaseAuth.instance.currentUser?.uid).get().then((DocumentSnapshot documentSnapshot){
+          if(documentSnapshot.exists)
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>AddProduct()));
+          }
+        });
+
       }
       else{
 
