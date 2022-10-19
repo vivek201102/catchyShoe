@@ -6,8 +6,10 @@ class ProductModel{
   String? imageUrl;
   String? des;
   int? qty;
+
   ProductModel({this.qty,this.pid,this.name,this.price,this.category,this.des,this.imageUrl});
-  //send
+
+  //receive
   factory ProductModel.fromMap(map){
     return ProductModel(
       pid: map['pid'],
@@ -20,7 +22,7 @@ class ProductModel{
     );
   }
 
-  //receive
+  //send
   Map<String, dynamic> toMap(){
     return {
       'pid': pid,
@@ -31,7 +33,8 @@ class ProductModel{
       'price': price,
       'quantity':qty,
 
-
     };
   }
 }
+
+

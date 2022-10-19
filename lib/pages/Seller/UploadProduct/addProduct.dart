@@ -75,7 +75,6 @@ class _AddProductState extends State<AddProduct> {
                               onPressed: () async {
                                 ImagePicker imagePicker = ImagePicker();
                                 XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-                                print('${file?.path}');
 
                                 if(file==null) return;
                                 String uniqueFileName =  DateTime.now().millisecondsSinceEpoch.toString();
@@ -203,10 +202,11 @@ class _AddProductState extends State<AddProduct> {
                                   pm.des = desController.text;
                                   pm.imageUrl = imageUrl;
                                   pm.category = (category == 1)?"men":"women";
+
                                   Map<String, dynamic> productData = pm.toMap();
                                   _reference.add(productData);
                                   Fluttertoast.showToast(msg: "Product added sucessfully");
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddProduct()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddProduct()));
 
 
 

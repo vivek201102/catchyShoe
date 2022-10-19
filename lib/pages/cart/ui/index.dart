@@ -41,7 +41,9 @@ class CartPage extends GetView<CartController> {
         ),
         centerTitle: true,
       ),
-      body: Column(
+      body: SingleChildScrollView(
+        child:
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -108,19 +110,21 @@ class CartPage extends GetView<CartController> {
             },
           ),
 
-          Padding(padding: EdgeInsets.only(top:90),
+          Padding(padding: EdgeInsets.only(top:90, bottom: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(padding: EdgeInsets.only(),
                   child: ElevatedButton(
-                    onPressed: (){},
-                    child: Text("Proceed to Payment"),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(AppColors.main),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 20))
-                    )
+                      onPressed: (){
+
+                      },
+                      child: Text("Proceed to Payment"),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.main),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 20))
+                      )
                   ),
                 )
               ],
@@ -128,11 +132,7 @@ class CartPage extends GetView<CartController> {
           )
         ],
       ),
-
-
-
-
-
+      ),
 
     );
   }
@@ -156,7 +156,7 @@ class _ShoeCardState extends State<ShoeCard> {
   _ShoeCardState(this.shoe, this.id);
 
 
-@override
+  @override
 
   final Map shoe;
   final String id;
@@ -168,19 +168,21 @@ class _ShoeCardState extends State<ShoeCard> {
     setState(() {
       qty = qty + 1;
     });
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
   }
 
   Future decQty() async{
     if(qty == 1)
-      {
-        await FirebaseFirestore.instance.collection("cartData").doc(id).delete();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
-      }
+    {
+      await FirebaseFirestore.instance.collection("cartData").doc(id).delete();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
+    }
     else{
       await FirebaseFirestore.instance.collection("cartData").doc(id).update({'qty': shoe['qty'] - 1 });
       setState(() {
         qty = qty - 1;
       });
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
     }
   }
 
@@ -188,63 +190,56 @@ class _ShoeCardState extends State<ShoeCard> {
   Widget build(BuildContext context) {
 
     if(qty == 0)
-      {
-        setState(() {
-          qty = shoe['qty'];
-        });
-      }
+    {
+      setState(() {
+        qty = shoe['qty'];
+      });
+    }
     return Padding(padding: EdgeInsets.only(top: 10),
-    child:
-    Container(
-      width: MediaQuery. of(context). size. width,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Container(
-          margin: EdgeInsets.only(left: 10),
-          width: 100,
-          child: Image.network(shoe['imageUrl'], fit: BoxFit.cover,),
-        ),
-
-        Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top:40, left: 20),
-              child: Text(shoe['name']),
-            ),
-            Padding(padding: EdgeInsets.only(top:40, left: 20),
-              child: Text("Rs:" + shoe['price'].toString()),
-            )
-
-          ],
-        ),
-
-        Padding(
-          padding: EdgeInsets.only(top:65, left:40),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+      child:
+      Container(
+        width: MediaQuery. of(context). size. width,
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () async{
-                await decQty();
-              }, icon: Icon(Icons.remove)),
-              Text(qty.toString()),
-              IconButton(onPressed: ()async{
-                await addQty();
-              }, icon: Icon(Icons.add)),
-            ] ,
-          ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                width: 100,
+                child: Image.network(shoe['imageUrl'], fit: BoxFit.cover,),
+              ),
+
+              Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:40, left: 20),
+                    child: Text(shoe['name']),
+                  ),
+                  Padding(padding: EdgeInsets.only(top:40, left: 20),
+                    child: Text("Rs:" + shoe['price'].toString()),
+                  )
+                ],
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(top:65, left:40),
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(onPressed: () async{
+                      await decQty();
+                    }, icon: Icon(Icons.remove)),
+                    Text(qty.toString()),
+                    IconButton(onPressed: ()async{
+                      await addQty();
+                    }, icon: Icon(Icons.add)),
+                  ] ,
+                ),
+              ),
+            ]
         ),
-
-
-
-      ]
-
-    ),
-    ),
+      ),
     );
-
-
-
   }
 
 }

@@ -50,19 +50,24 @@ class HomePage extends StatelessWidget {
 
 
 
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> CartPage())),
-                    icon: Badge(
-                      child: SvgPicture.asset('assets/icons/Buy.svg'),
-                    ),
-                    iconSize: Dimensions.iconSize26,
-                  ),
-                  SizedBox(
-                    width: Dimensions.width15,
-                  ),
+                  // IconButton(
+                  //   padding: EdgeInsets.zero,
+                  //   constraints: const BoxConstraints(),
+                  //   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> CartPage())),
+                  //   icon: Badge(
+                  //     child: SvgPicture.asset('assets/icons/Buy.svg'),
+                  //   ),
+                  //   iconSize: Dimensions.iconSize26,
+                  // ),
+                  // SizedBox(
+                  //   width: Dimensions.width15,
+                  // ),
 
+                  IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> CartPage())),
+                      icon: SvgPicture.asset('assets/icons/Buy.svg', ),
+                    iconSize: Dimensions.iconSize26,
+                    padding: EdgeInsets.only(top:22, right: 10),
+                  ),
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),

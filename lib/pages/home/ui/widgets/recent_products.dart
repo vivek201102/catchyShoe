@@ -38,7 +38,7 @@ class _RecentProductState extends State<RecentProduct> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             MyText(
-              text: 'Recent Products',
+              text: 'Products',
               size: Dimensions.font16,
               weight: FontWeight.w500,
             ),
@@ -55,6 +55,7 @@ class _RecentProductState extends State<RecentProduct> {
         SizedBox(
           height: Dimensions.height10,
         ),
+
         StreamBuilder<QuerySnapshot>(
             stream: widget._stream,
             builder: (BuildContext contex, AsyncSnapshot snapshot){
@@ -157,7 +158,7 @@ class _ShoeCardState extends State<ShoeCard> {
                 bottom: Dimensions.height15,
               ),
               child: MyText(
-                text: '\Rs${shoe['price'].toStringAsFixed(2)}',
+                text: '\Rs ${shoe['price'].toStringAsFixed(2)}',
                 size: 15,
                 weight: FontWeight.w500,
               ),
@@ -185,8 +186,7 @@ class _ShoeCardState extends State<ShoeCard> {
                         cm.qty = 1;
                         cm.pid = id;
                         cm.imageUrl = shoe['imageUrl'];
-                        // Map<String, dynamic> productData = pm.toMap();
-                        // _reference.add(productData);
+
                         Map<String, dynamic> cartData = cm.toMap();
                         _reference.add(cartData);
                         Fluttertoast.showToast(msg: "Product added sucessfully");

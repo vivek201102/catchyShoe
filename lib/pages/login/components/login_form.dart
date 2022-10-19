@@ -38,6 +38,7 @@ class _LoginFormState extends State<LoginForm> {
     if (user == null) {
       Fluttertoast.showToast(msg: "Invalid Email or Password");
       passwordController.text = "";
+      // passwordController.clear();
       print("Invalid user");
       return;
     }
