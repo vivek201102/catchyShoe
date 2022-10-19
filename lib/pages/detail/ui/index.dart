@@ -1,10 +1,15 @@
 import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/core/theme/colors.dart';
+import 'package:ecommerce/models/cart_model.dart';
+import 'package:ecommerce/pages/cart/ui/index.dart';
 import 'package:ecommerce/pages/home/data/shoes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'package:ecommerce/core/utils/dimesions.dart';
@@ -14,18 +19,45 @@ import 'package:ecommerce/pages/home/ui/widgets/my_text.dart';
 import 'package:ecommerce/routes/routes.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({
+   DetailsPage({
     Key? key,
     required this.shoe, required this.id
   }) : super(key: key);
   final Map shoe;
   final String id;
+   CollectionReference _reference = FirebaseFirestore.instance.collection('cartData');
+
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+
+  Future onClickOnButton() async{
+
+      cm.uid = await FirebaseAuth.instance.currentUser?.uid;
+      final snap = await FirebaseFirestore.instance.collection("cartData").where('uid', isEqualTo: cm.uid).where('pid', isEqualTo: widget.id).get();
+      if(snap.docs.length == 0)
+      {
+        cm.name = widget.shoe['name'];
+        cm.price = widget.shoe['price'];
+        cm.qty = 1;
+        cm.pid = widget.id;
+        cm.imageUrl = widget.shoe['imageUrl'];
+        // Map<String, dynamic> productData = pm.toMap();
+        // _reference.add(productData);
+        Map<String, dynamic> cartData = cm.toMap();
+        widget._reference.add(cartData);
+        Fluttertoast.showToast(msg: "Product added sucessfully");
+      }
+      else{
+        Fluttertoast.showToast(msg: "Product already in cart");
+      }
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
+
+  }
+  CartModel cm =CartModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -268,7 +300,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(AppColors.main),
                   ),
-                  onPressed: (){},
+                  onPressed: () async{
+                    onClickOnButton();
+                  },
                   // onPressed: () =>
                   //     Get.find<CartController>().addToCart(widget.shoe),
                   child: const Text(
@@ -287,9 +321,8 @@ class _DetailsPageState extends State<DetailsPage> {
                       const Color(0xFFF0F2F1),
                     ),
                   ),
-                  onPressed: () {
-                    // Get.find<CartController>().addToCart(widget.shoe);
-                    Get.toNamed(Routes.cart);
+                  onPressed: () async{
+                    onClickOnButton();
                   },
                   child: const Text(
                     'Buy Now',

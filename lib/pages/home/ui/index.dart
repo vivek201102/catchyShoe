@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:ecommerce/core/theme/colors.dart';
 import 'package:ecommerce/core/utils/dimesions.dart';
 import 'package:ecommerce/pages/cart/controllers/cart_controller.dart';
+import 'package:ecommerce/pages/cart/ui/index.dart';
 import 'package:ecommerce/pages/home/ui/widgets/banners.dart';
 import 'package:ecommerce/pages/home/ui/widgets/categories.dart';
 import 'package:ecommerce/pages/home/ui/widgets/my_text.dart';
@@ -52,17 +53,8 @@ class HomePage extends StatelessWidget {
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () => Get.toNamed(Routes.cart),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> CartPage())),
                     icon: Badge(
-                      badgeContent: Obx(
-                        () => MyText(
-                          text: Get.find<CartController>()
-                              .items
-                              .length
-                              .toString(),
-                          color: Colors.white,
-                        ),
-                      ),
                       child: SvgPicture.asset('assets/icons/Buy.svg'),
                     ),
                     iconSize: Dimensions.iconSize26,

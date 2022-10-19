@@ -117,7 +117,7 @@ class _ShoeCardState extends State<ShoeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.to(
-        DetailsPage(shoe: shoe, id: this.id),
+        DetailsPage(shoe: shoe, id: id),
       ),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -182,7 +182,7 @@ class _ShoeCardState extends State<ShoeCard> {
                       {
                         cm.name = shoe['name'];
                         cm.price = shoe['price'];
-                        cm.qty = shoe['quantity'];
+                        cm.qty = 1;
                         cm.pid = id;
                         cm.imageUrl = shoe['imageUrl'];
                         // Map<String, dynamic> productData = pm.toMap();
